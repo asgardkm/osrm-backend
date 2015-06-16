@@ -1,13 +1,18 @@
 @ECHO OFF
 SET EL=0
 
+ECHO do we get this far
 SET DEPSPKG=osrm-deps-win-%platform%-14.0.7z
+ECHO do we get this far 2
 
 :: local development
 IF "%computername%"=="MB" GOTO SKIPDL
 
+ECHO do we get this far 3
 IF EXISTS %DEPSPKG% DEL %DEPSPKG%
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+ECHO do we get this far 4
+
 
 powershell Invoke-WebRequest "https://mapbox.s3.amazonaws.com/windows-builds/windows-deps/$env:DEPSPKG" -OutFile C:\projects\osrm\$env:DEPSPKG
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
