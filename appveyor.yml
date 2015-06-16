@@ -19,7 +19,7 @@ install:
   - CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
 
 build_script:
-  - appveyor-build.bat
+  - CALL appveyor-build.bat
 
 test: off
 
