@@ -9,7 +9,7 @@ ECHO do we get this far 2
 IF "%computername%"=="MB" GOTO SKIPDL
 
 ECHO do we get this far 3
-IF EXISTS %DEPSPKG% DEL %DEPSPKG%
+IF EXIST %DEPSPKG% DEL %DEPSPKG%
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 ECHO do we get this far 4
 
