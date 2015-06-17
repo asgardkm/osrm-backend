@@ -1,20 +1,19 @@
 @ECHO OFF
+SETLOCAL
 SET EL=0
 
-ECHO do we get this far
-SET DEPSPKG=osrm-deps-win-%platform%-14.0.7z
-ECHO do we get this far 2
+ECHO platform^: %platform%
+:: HARDCODE "x64" as it is uppercase on AppVeyor and download from S3 is case sensitive
+SET DEPSPKG=osrm-deps-win-x64-14.0.7z
 
 :: local development
 IF "%computername%"=="MB" GOTO SKIPDL
 
-ECHO do we get this far 3
 IF EXIST %DEPSPKG% DEL %DEPSPKG%
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-ECHO do we get this far 4
 
-
-powershell Invoke-WebRequest "https://mapbox.s3.amazonaws.com/windows-builds/windows-deps/$env:DEPSPKG" -OutFile C:\projects\osrm\$env:DEPSPKG
+ECHO downloading %DEPSPKG%
+powershell Invoke-WebRequest https://mapbox.s3.amazonaws.com/windows-builds/windows-deps/$env:DEPSPKG -OutFile C:\projects\osrm\$env:DEPSPKG
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 7z -y x %DEPSPKG% | %windir%\system32\FIND "ing archive"
@@ -42,7 +41,7 @@ cmake .. ^
 -DBoost_ADDITIONAL_VERSIONS=1.57 ^
 -DBoost_USE_MULTITHREADED=ON ^
 -DBoost_USE_STATIC_LIBS=ON ^
--DCMAKE_BUILD_TYPE=%BUILD_TYPE% ^
+-DCMAKE_BUILD_TYPE=%CONFIGURATION% ^
 -DCMAKE_INSTALL_PREFIX=%PREFIX%
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
