@@ -60,6 +60,20 @@ msbuild OSRM.sln ^
 /flp2:logfile=build_warnings.txt;warningsonly
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
+ECHO ========= TODO^: CREATE PACKAGES ==========
+
+CD c:\projects\osrm\build\%Configuration%
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+
+SET PATH=c:\projects\osrm\osrm-deps\libs\bin;%PATH%
+
+ECHO running datastructure-tests.exe ...
+datastructure-tests.exe
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+ECHO running algorithm-tests.exe ...
+algorithm-tests.exe
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+
 GOTO DONE
 
 :ERROR
